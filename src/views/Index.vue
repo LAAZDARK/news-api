@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 import { list } from "@/api/new";
 import moment from "moment";
 export default {
@@ -51,6 +52,7 @@ export default {
     this.fetchData();
   },
   methods: {
+      
     async fetchData() {
       this.loading = true;
       await list()
@@ -85,13 +87,11 @@ hr {
   background-color: rgb(202, 202, 202);
 }
 .image-new {
-    width: 180px
+  width: 180px;
 }
 @media (max-width: 768px) {
   .image-new {
     width: 250px;
   }
 }
-
-
 </style>

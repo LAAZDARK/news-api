@@ -3,10 +3,15 @@ import axios from "axios";
 // import {  Message } from 'element-ui'
 try {
   const configElement = document.getElementById("config");
+  var url =
+    "https://newsapi.org/v2/everything?" +
+    "q=Apple&" +
+    "from=2021-05-26&" +
+    "sortBy=popularity&" +
+    "apiKey=69343b2637a84511a1d25b320a1bd427";
+
   var config = JSON.parse(configElement.innerHTML);
-  config.baseApi = config.baseApi
-    ? config.baseApi
-    : "https://newsapi.org/v2/everything?q=Apple&from=2021-05-25&sortBy=popularity&apiKey=69343b2637a84511a1d25b320a1bd427";
+  config.baseApi = config.baseApi ? config.baseApi : url;
 } catch (error) {
   console.log(error);
 }
@@ -14,6 +19,8 @@ try {
 // create an axios instance
 const service = axios.create({
   baseURL: config.baseApi, // url = base url + request url
+  crossDomain: true,
+
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 0, // request timeout
 });
