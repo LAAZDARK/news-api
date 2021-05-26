@@ -4,12 +4,11 @@ import axios from "axios";
 try {
   const configElement = document.getElementById("config");
   var url =
-    "https://newsapi.org/v2/everything?" +
-    "q=Apple&" +
-    "from=2021-05-26&" +
+    "https://newsapi.org/v2/top-headlines?" +
+    "q=digital economy&" +
     "sortBy=popularity&" +
+    "page=2&" +
     "apiKey=69343b2637a84511a1d25b320a1bd427";
-
   var config = JSON.parse(configElement.innerHTML);
   config.baseApi = config.baseApi ? config.baseApi : url;
 } catch (error) {

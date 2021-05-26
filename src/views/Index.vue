@@ -15,7 +15,7 @@
             </el-col>
             <el-col :xs="24" :sm="16" :md="16" :lg="16">
               <div class="text item">
-                {{ article.description.substring(0, 100) }}
+                {{ article.description.substring(0, 90) }}
               </div>
             </el-col>
             <el-col :span="24">
@@ -41,7 +41,7 @@
 <script>
 
 import { list } from "@/api/new";
-import moment from "moment";
+
 export default {
   data() {
     return {
@@ -52,23 +52,15 @@ export default {
     this.fetchData();
   },
   methods: {
-      
     async fetchData() {
       this.loading = true;
       await list()
         .then((response) => {
           this.list = response.data.articles;
-          console.log(response.data);
+          console.log(response);
         })
         .catch(this.responseCatch)
         .finally(() => (this.loading = false));
-    },
-  },
-  computed: {
-    formatDiff: function (value) {
-      var dateAct = moment().format("MMMM Do YYYY, h:mm:ss a");
-      var res = dateAct.diff(value, "day");
-      return res;
     },
   },
 };
