@@ -1,13 +1,25 @@
 <template>
   <div>
+    <el-menu
+      default-active="1"
+      class="el-menu-demo menu-center"
+      mode="horizontal"
+      @select="countNext"
+    >
+      <el-menu-item index="1">Inicio</el-menu-item>
+    </el-menu>
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="16" :lg="12">
         <div v-for="article in list" :key="article.id">
           <el-card class="box-card margin-top-20">
             <div slot="header" class="clearfix">
               <span>{{ article.title }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text"
-                >Ver</el-button
+              <el-link
+                class="margin-right"
+                target="_blank"
+                :href="article.url"
+                type="primary"
+                >Ver</el-link
               >
             </div>
             <el-col :xs="24" :sm="8" :md="8" :lg="8">
@@ -20,7 +32,7 @@
             </el-col>
             <el-col :span="24">
               <hr />
-              <div class="clearfix">
+              <div class="footer-card">
                 <time class="time">{{ article.publishedAt | formatDiff }}</time>
                 <el-link
                   class="margin-right"
@@ -35,17 +47,29 @@
         </div>
       </el-col>
     </el-row>
+    <el-row type="flex" justify="center">
+      <el-button
+        class="margin-top-20 margin-bottom-40"
+        type="primary"
+        v-on:click="countNext"
+        round
+        v-loading.fullscreen.lock="loading"
+        icon="el-icon-refresh"
+        >Actualizar</el-button
+      >
+    </el-row>
   </div>
 </template>
 
 <script>
-
 import { list } from "@/api/new";
 
 export default {
   data() {
     return {
       list: null,
+      counter: 1,
+      loading: false,
     };
   },
   mounted() {
@@ -54,7 +78,7 @@ export default {
   methods: {
     async fetchData() {
       this.loading = true;
-      await list()
+      await list(this.counter)
         .then((response) => {
           this.list = response.data.articles;
           console.log(response);
@@ -62,13 +86,20 @@ export default {
         .catch(this.responseCatch)
         .finally(() => (this.loading = false));
     },
+    countNext() {
+      this.counter++;
+      this.fetchData();
+    },
   },
 };
 </script>
 
 <style lang="scss">
 .margin-top-20 {
-  margin-top: 20px;
+  margin-top: 20px !important;
+}
+.margin-bottom-40 {
+  margin-bottom: 40px !important;
 }
 .margin-right {
   float: right;
@@ -85,5 +116,13 @@ hr {
   .image-new {
     width: 250px;
   }
+}
+.menu-center {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.footer-card {
+  padding-bottom: 10px;
 }
 </style>
