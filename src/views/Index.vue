@@ -7,6 +7,11 @@
       @select="countNext"
     >
       <el-menu-item index="1">Inicio</el-menu-item>
+      <el-menu-item index="2">Entretenimiento</el-menu-item>
+      <el-menu-item index="3">Deportes</el-menu-item>
+      <el-menu-item index="4">Tecnologia</el-menu-item>
+      <el-menu-item index="5">Negocios</el-menu-item>
+      <el-menu-item index="5">Más</el-menu-item>
     </el-menu>
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="16" :lg="12">
@@ -23,7 +28,7 @@
               >
             </div>
             <el-col :xs="24" :sm="8" :md="8" :lg="8">
-              <img :src="article.urlToImage" class="image image-new" />
+              <img :src="article.image" class="image image-new" />
             </el-col>
             <el-col :xs="24" :sm="16" :md="16" :lg="16">
               <div class="text item">
@@ -81,7 +86,6 @@ export default {
       await list(this.counter)
         .then((response) => {
           this.list = response.data.articles;
-          console.log(response);
         })
         .catch(this.responseCatch)
         .finally(() => (this.loading = false));
@@ -89,6 +93,7 @@ export default {
     countNext() {
       this.counter++;
       this.fetchData();
+      window.scrollTo(0, 0);
     },
   },
 };
