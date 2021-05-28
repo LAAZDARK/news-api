@@ -1,18 +1,44 @@
 <template>
   <div>
-    <el-menu
-      default-active="1"
-      class="el-menu-demo menu-center"
-      mode="horizontal"
-      @select="countNext"
-    >
-      <el-menu-item index="1">Inicio</el-menu-item>
-      <el-menu-item index="2">Entretenimiento</el-menu-item>
-      <el-menu-item index="3">Deportes</el-menu-item>
-      <el-menu-item index="4">Tecnologia</el-menu-item>
-      <el-menu-item index="5">Negocios</el-menu-item>
-      <el-menu-item index="5">Más</el-menu-item>
-    </el-menu>
+    <el-row type="flex" justify="center">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24">
+        <el-menu
+          default-active="1"
+          class="el-menu-demo menu-center"
+          mode="horizontal"
+          @select="countNext"
+        >
+          <el-menu-item index="1">Inicio</el-menu-item>
+          <el-menu-item
+            class="hidden-xs-only"
+            @click="dialogFormVisible = true"
+            index="2"
+            >Entretenimiento</el-menu-item
+          >
+          <el-menu-item class="hidden-xs-only" index="3">Deportes</el-menu-item>
+          <el-menu-item
+            class="hidden-xs-only"
+            @click="dialogFormVisible = true"
+            index="4"
+            >Tecnologia</el-menu-item
+          >
+          <el-menu-item class="hidden-xs-only" index="5">Negocios</el-menu-item>
+          <el-menu-item
+            @click="dialogFormVisible = true"
+            class="hidden-xs-only"
+            index="5"
+            >Más</el-menu-item
+          >
+          <el-submenu class="hidden-sm-and-up" index="6">
+            <template slot="title">Mas</template>
+            <el-menu-item index="5-1">Entretenimiento</el-menu-item>
+            <el-menu-item index="5-2">Deportes</el-menu-item>
+            <el-menu-item index="5-3">Tecnologia</el-menu-item>
+            <el-menu-item index="5-4">Negocios</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-col>
+    </el-row>
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="16" :lg="12">
         <div v-for="article in list" :key="article.id">
@@ -63,11 +89,37 @@
         >Actualizar</el-button
       >
     </el-row>
+    <div>
+      <el-dialog
+        title="Recibe noticias cada semana"
+        :visible.sync="dialogFormVisible"
+      >
+        <el-form :model="form">
+          <el-form-item label="Correo electrónico" label-width="120">
+            <el-input v-model="form.email" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Pais" label-width="120">
+            <el-select v-model="form.country" placeholder="Selecciona tu pais">
+              <el-option label="Estados Unidos" value="us"></el-option>
+              <el-option label="Mexico" value="mx"></el-option>
+              <el-option label="Mexico" value="gt"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">Cancelar</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false"
+            >Guardar</el-button
+          >
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import { list } from "@/api/new";
+import "element-ui/lib/theme-chalk/display.css";
 
 export default {
   data() {
@@ -75,6 +127,11 @@ export default {
       list: null,
       counter: 1,
       loading: false,
+      dialogFormVisible: false,
+      form: {
+        email: "",
+        country: "",
+      },
     };
   },
   mounted() {
@@ -116,10 +173,13 @@ hr {
 }
 .image-new {
   width: 180px;
+  height: 100px;
 }
 @media (max-width: 768px) {
   .image-new {
     width: 250px;
+    height: 140px;
+    margin-bottom: 10px;
   }
 }
 .menu-center {
